@@ -7,9 +7,26 @@
       </div>
     </div>
 
-    <div class="list card" ng-repeat="match in data.cricketMatches" ng-if="match.TournamentId">
+    <div 
+      class="list card" 
+      ng-repeat="match in data.cricketMatches" 
+      ng-if="match.TournamentId && match.MatchStatus !== 'Stumps'" >
 
-      <div class="item item-divider">{{ match.TeamA }} vs {{ match.TeamB }}</div>
+      <div class="item item-divider">
+        <span>{{ match.TeamA }} vs {{ match.TeamB }}</span> 
+        
+        <!-- Play in Progress -->
+        <i class="icon ion-record balanced" ng-if="match.MatchStatus !== 'Innings Break'"></i>
+        
+        <!-- Innings Break -->
+        <i class="icon ion-record energized" ng-if="match.MatchStatus === 'Innings Break'"></i>
+
+      </div>
+      
+      <div class="item item-text-wrap" ng-if="match.MatchStatus">
+        <p>{{ match.MatchStatus }}</p>
+        <p>{{ match.EditorialText }}</p>
+      </div>
       
       <div class="item" ng-repeat="inning in match.innings">
         <h2 ng-if="inning.TeamId*1 === match.TeamAId">{{ match.TeamA }}</h2>
@@ -23,17 +40,17 @@
 
       <div class="item item-avatar" ng-repeat="batsman in match.Batsmen">
         <!-- Cricket icon by Icons8 -->
-        <img src="/img/cricket-32.png" title="Cricket" width="32">
+        <img src="img/cricket-32.png" width="32">
         <h2>{{ batsman.BatsmanName }}</h2>
         <p>
           <span>{{ batsman.Runs }} runs,</span>
-          <span>out of {{ batsman.BallsFaced }} balls</span>
+          <span>in {{ batsman.BallsFaced }} balls</span>
         </p>
       </div>
       
       <div class="item item-avatar" ng-repeat="bowler in match.Bowlers">
         <!-- Waxing Gibbous icon by Icons8 -->
-        <img src="/img/ball-32.png" title="Waxing Gibbous" width="32">
+        <img src="img/ball-32.png" width="32">
         <h2>{{ bowler.BowlerName }}</h2>
         <p>
           <span>{{ bowler.Overs }} overs,</span>
@@ -46,7 +63,7 @@
 
     <div class="card">
       <div class="item item-text-wrap text-center" ng-if="data.metaData.Timestamp">
-        <div>Updated on {{ data.metaData.Timestamp }}</div>
+        <div>Updated on <span>{{ data.metaData.Timestamp | scanDate}}</span></div>
       </div>
     </div>
 

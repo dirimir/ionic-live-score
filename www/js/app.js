@@ -1,4 +1,16 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', [
+  'ionic',
+  'starter.controllers',
+  'starter.services',
+])
+
+.filter('scanDate', function () {
+  return function (input) {
+    var m = moment(input);
+    m.utcOffset(600);
+    return m.format("Do YYYY, h:mm:ss a");
+  };
+})
 
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {
