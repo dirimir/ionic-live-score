@@ -1,0 +1,54 @@
+<ion-view view-title="Live Cricket Matches">
+  <ion-content class="padding">
+    
+    <div class="card" ng-if="loading">
+      <div class="item item-text-wrap text-center">
+        <ion-spinner></ion-spinner>
+      </div>
+    </div>
+
+    <div class="list card" ng-repeat="match in data.cricketMatches" ng-if="match.TournamentId">
+
+      <div class="item item-divider">{{ match.TeamA }} vs {{ match.TeamB }}</div>
+      
+      <div class="item" ng-repeat="inning in match.innings">
+        <h2 ng-if="inning.TeamId*1 === match.TeamAId">{{ match.TeamA }}</h2>
+        <h2 ng-if="inning.TeamId*1 === match.TeamBId">{{ match.TeamB }}</h2>
+        <p>
+          <span>{{ inning.TotalRuns }}</span>
+          <span>({{ inning.TotalWickets }})</span>
+          <span>in {{ inning.Overs }} Overs</span>
+        </p>
+      </div>
+
+      <div class="item item-avatar" ng-repeat="batsman in match.Batsmen">
+        <!-- Cricket icon by Icons8 -->
+        <img src="https://cdn.icons8.com/Android_L/PNG/32/Sports/cricket-32.png" title="Cricket" width="32">
+        <h2>{{ batsman.BatsmanName }}</h2>
+        <p>
+          <span>{{ batsman.Runs }} runs,</span>
+          <span>out of {{ batsman.BallsFaced }} balls</span>
+        </p>
+      </div>
+      
+      <div class="item item-avatar" ng-repeat="bowler in match.Bowlers">
+        <!-- Waxing Gibbous icon by Icons8 -->
+        <img src="https://cdn.icons8.com/Android_L/PNG/32/Astrology/waxing_gibbous-32.png" title="Waxing Gibbous" width="32">
+        <h2>{{ bowler.BowlerName }}</h2>
+        <p>
+          <span>{{ bowler.Overs }} overs,</span>
+          <span>runs {{ bowler.RunsGiven }}</span>
+          <span>({{ bowler.Wickets }} wickets)</span>     
+        </p>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <div class="item item-text-wrap text-center" ng-if="data.metaData.Timestamp">
+        <div>Updated on {{ data.metaData.Timestamp }}</div>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>
